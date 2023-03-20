@@ -27,7 +27,15 @@ public class ExceptionValidationControllerAdvice {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponses);
+    }
 
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<?> throwableException(Throwable throwable) {
+        log.error("Unchecked Throwable: {}", (Object) throwable.getStackTrace());
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("INTERNAL_SERVER_ERROR");
     }
 }
 
