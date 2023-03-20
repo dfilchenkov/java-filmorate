@@ -5,9 +5,9 @@ import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 public class ReleaseDateValidator implements ConstraintValidator<ReleaseDate, LocalDate> {
-    short year;
-    byte month;
-    byte day;
+    private short year;
+    private byte month;
+    private byte day;
 
     @Override
     public void initialize(ReleaseDate constraintAnnotation) {
