@@ -43,7 +43,6 @@ public class FilmController {
     @PutMapping
     public ResponseEntity<Film> update(@Valid @RequestBody Film film) {
         if (!filmMap.containsKey(film.getId())) {
-            log.error("Не удалось обновить! Film c id: {} не существует в базе", film.getId());
             throw new FilmNotFoundException(String.format("Не удалось обновить! Film c id: %s не существует в базе",
                     film.getId()));
         }

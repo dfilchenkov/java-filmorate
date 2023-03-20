@@ -47,7 +47,6 @@ public class UserController {
     @PutMapping
     public ResponseEntity<User> update(@Valid @RequestBody User user) {
         if (!userMap.containsKey(user.getId())) {
-            log.error("Не удалось обновить! User c id: {} не существует в базе", user.getId());
             throw new UserNotFoundException(String.format("Не удалось обновить! User c id: %s не существует в базе",
                     user.getId()));
         }

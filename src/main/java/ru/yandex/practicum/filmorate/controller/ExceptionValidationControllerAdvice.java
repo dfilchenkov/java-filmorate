@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.validator.ErrorResponse;
 import ru.yandex.practicum.filmorate.validator.ValidationErrorResponse;
 
 import java.util.List;
@@ -29,13 +32,31 @@ public class ExceptionValidationControllerAdvice {
                 .body(errorResponses);
     }
 
-    @ExceptionHandler(Throwable.class)
-    public ResponseEntity<?> throwableException(Throwable throwable) {
-        log.error("Unchecked Throwable: {}", (Object) throwable.getStackTrace());
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> throwableException(UserNotFoundException exception) {
+        log.error(exception.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("INTERNAL_SERVER_ERROR");
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(FilmNotFoundException.class)
+    public ResponseEntity<ErrorResponse> throwableException(FilmNotFoundException exception) {
+        log.error(exception.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<ErrorResponse> throwableException(Throwable throwable) {
+        log.error("Unchecked Throwable: {}", throwable.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(throwable.getMessage()));
     }
 }
 
