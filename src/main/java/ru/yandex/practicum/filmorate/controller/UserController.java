@@ -71,7 +71,7 @@ public class UserController {
         return userService.getAllFriends(id);
     }
 
-    @GetMapping("/{id}/friends/common/{otherId}") // TODO писок друзей общих с другим пользователем
+    @GetMapping("/{id}/friends/common/{otherId}")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getCrossFriends(@PathVariable("id") long id, @PathVariable("otherId") long otherId) {
         return userService.getCrossFriends(id, otherId);

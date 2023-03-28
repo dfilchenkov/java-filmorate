@@ -7,7 +7,7 @@ import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.util.List;
 
 @Service
-public class UserServiceImp implements UserService{
+public class UserServiceImp implements UserService {
     private UserStorage userStorage;
 
     public UserServiceImp(UserStorage userStorage) {

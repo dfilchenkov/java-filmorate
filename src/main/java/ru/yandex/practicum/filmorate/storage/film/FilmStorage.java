@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface FilmStorage {
     List<Film> findAll();
+
     void create(Film film);
+
     void update(Film film);
 }

@@ -8,7 +8,7 @@ import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import java.util.List;
 
 @Service
-public class FilmServiceImp implements FilmService{
+public class FilmServiceImp implements FilmService {
 
     private FilmStorage filmStorage;
 
@@ -37,17 +37,19 @@ public class FilmServiceImp implements FilmService{
     }
 
     @Override
-    public void addLike(User user) { // TODO
-
-    }
-
-    @Override
-    public void deleteLike(User user) { // TODO
-
-    }
-
-    @Override
-    public List<User> findPopularFilms(int size) { // TODO
+    public Film addLike(long id, long userId) {
         return null;
     }
+
+    @Override
+    public Film deleteLike(long id, long userId) {
+        return null;
+    }
+
+    @Override
+    public List<User> findPopularFilms(int count) {
+        return null;
+    }
+
+
 }
