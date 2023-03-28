@@ -41,28 +41,31 @@ public class FilmController {
         return film;
     }
 
-    @GetMapping("/{id}") // TODO фильм по id
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Film findById(@PathVariable("id") long id) {
-        return null;
+        return filmService.findById(id);
     }
 
     @PutMapping("/{id}/like/{userId}") // TODO пользователь ставит лайк фильму
     @ResponseStatus(HttpStatus.OK)
     public Film addLike(@PathVariable("id") long id, @PathVariable("userId") long userId) {
-        return null;
+        Film film = filmService.addLike(id, userId);
+        log.info("Film с id: {} был поставлен like от User с id: {}", id, userId);
+        return film;
     }
 
     @DeleteMapping("/{id}/like/{userId}") // TODO пользователь удаляет лайк
     @ResponseStatus(HttpStatus.OK)
     public Film deleteLike(@PathVariable("id") long id, @PathVariable("userId") long userId) {
-        return null;
+        Film film = filmService.deleteLike(id, userId);
+        log.info("У Film с id: {} был удален like от User с id: {}", id, userId);
+        return film;
     }
 
     @GetMapping("/popular")
-    // TODO возвращает список из первых сount фильмов по кол-ву лайков. Если count не указан = вернуть 10
     @ResponseStatus(HttpStatus.OK)
     public List<Film> getPopularFilms(@RequestParam(defaultValue = "10", required = false) int count) {
-        return null;
+        return filmService.findPopularFilms(count);
     }
 }

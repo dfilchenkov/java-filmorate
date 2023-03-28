@@ -32,24 +32,22 @@ public class FilmServiceImp implements FilmService {
     }
 
     @Override
-    public Film findById(long id) { // TODO
-        return null;
+    public Film findById(long id) {
+        return filmStorage.findById(id);
     }
 
     @Override
     public Film addLike(long id, long userId) {
-        return null;
+        return filmStorage.addLike(id, userId);
     }
 
     @Override
     public Film deleteLike(long id, long userId) {
-        return null;
+        return filmStorage.deleteLike(id, userId);
     }
 
     @Override
-    public List<User> findPopularFilms(int count) {
-        return null;
+    public List<Film> findPopularFilms(int count) {
+        return filmStorage.findPopularFilms(count);
     }
-
-
 }

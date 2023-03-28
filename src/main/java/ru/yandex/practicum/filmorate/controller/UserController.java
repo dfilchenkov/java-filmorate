@@ -44,9 +44,7 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User findById(@PathVariable("id") long id) {
-        User user = userService.findById(id);
-        log.info("User c id: {} найден", id);
-        return user;
+        return userService.findById(id);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
