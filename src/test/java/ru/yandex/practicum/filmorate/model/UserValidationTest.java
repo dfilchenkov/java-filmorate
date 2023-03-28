@@ -22,7 +22,7 @@ public class UserValidationTest {
     @DisplayName("1) Проверка обновления несуществующего user с id: 9999")
     void createUserUnknownUpdateTest() {
         User unknownUser = User.builder()
-                .id(9999)
+                .id(9999L)
                 .login("doloreUpdate")
                 .name("est adipisicing")
                 .email("mail@yandex.ru")

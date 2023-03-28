@@ -24,7 +24,7 @@ public class FilmValidationTest {
     @DisplayName("1) Проверка обновления несуществующего фильма с id: 999")
     void createFilmUnknownUpdateTest() {
         Film unknownFilm = Film.builder()
-                .id(999)
+                .id(999L)
                 .name("Film name")
                 .description("Description")
                 .releaseDate(LocalDate.of(1900, 3, 25))
