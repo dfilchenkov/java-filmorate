@@ -2,59 +2,76 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.user.UserService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final Map<Integer, User> userMap = new HashMap<>();
-    private int countId;
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ArrayList<>(userMap.values()));
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> findAll() {
+        return userService.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@Valid @RequestBody User user) {
-        ++countId;
-        user.setId(countId);
-
-        if (user.getName() == null || user.getName().isEmpty()) {
-            user.setName(user.getLogin());
-        }
-
-        userMap.put(user.getId(), user);
+    @ResponseStatus(HttpStatus.CREATED)
+    public User create(@Valid @RequestBody User user) {
+        userService.create(user);
         log.info("User c id: {} и email: {} добавлен", user.getId(), user.getEmail());
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(user);
+        return user;
     }
 
     @PutMapping
-    public ResponseEntity<User> update(@Valid @RequestBody User user) {
-        if (!userMap.containsKey(user.getId())) {
-            throw new UserNotFoundException(String.format("Не удалось обновить! User c id: %s не существует в базе",
-                    user.getId()));
-        }
-
-        userMap.put(user.getId(), user);
+    @ResponseStatus(HttpStatus.OK)
+    public User update(@Valid @RequestBody User user) {
+        userService.update(user);
         log.info("User c id: {} обновлен", user.getId());
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(user);
+        return user;
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public User findById(@PathVariable("id") long id) {
+        return userService.findById(id);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.OK)
+    public User addFriends(@PathVariable("id") long id, @PathVariable("friendId") long friendId) {
+        User user = userService.addToFriends(id, friendId);
+        log.info("User c id: {} добавил в друзья User с id: {} ", id, friendId);
+        return user;
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.OK)
+    public User deleteFriends(@PathVariable("id") long id, @PathVariable("friendId") long friendId) {
+        User user = userService.deleteFromFriends(id, friendId);
+        log.info("User c id: {} удалил из друзей User с id: {} ", id, friendId);
+        return user;
+    }
+
+    @GetMapping("/{id}/friends")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> getAllFriends(@PathVariable("id") long id) {
+        return userService.getAllFriends(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> getCrossFriends(@PathVariable("id") long id, @PathVariable("otherId") long otherId) {
+        return userService.getCrossFriends(id, otherId);
     }
 }
