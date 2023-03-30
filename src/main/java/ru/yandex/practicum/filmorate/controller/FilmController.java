@@ -47,7 +47,7 @@ public class FilmController {
         return filmService.findById(id);
     }
 
-    @PutMapping("/{id}/like/{userId}") // TODO пользователь ставит лайк фильму
+    @PutMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public Film addLike(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         Film film = filmService.addLike(id, userId);
@@ -55,7 +55,7 @@ public class FilmController {
         return film;
     }
 
-    @DeleteMapping("/{id}/like/{userId}") // TODO пользователь удаляет лайк
+    @DeleteMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public Film deleteLike(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         Film film = filmService.deleteLike(id, userId);
